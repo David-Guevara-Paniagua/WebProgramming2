@@ -1,0 +1,37 @@
+version: '3.9'
+
+services:
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: escuela
+      MYSQL_USER: usuario
+      MYSQL_PASSWORD: password123
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./init:/docker-entrypoint-initdb.d
+    # --- AGREGAMOS ESTO ---
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot123"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  express:
+    build: ./app
+    container_name: express_app
+    restart: always
+    ports:
+      - "3000:3000"
+    # --- MODIFICAMOS ESTO ---
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+volumes:
+  mysql_data:
