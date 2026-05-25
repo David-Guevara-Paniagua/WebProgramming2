@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Control - Gestión de Choferes</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-100 font-sans antialiased">
+
+    <div class="flex h-screen overflow-hidden">
+        
+        <div class="w-64 bg-slate-900 text-white flex flex-col hidden md:flex">
+            <div class="p-5 text-xl font-bold tracking-wider border-b border-slate-800 flex items-center gap-3">
+                <i class="fa-solid fa-truck-steering text-emerald-400"></i>
+                <span>BiciTaxis</span>
+            </div>
+            <nav class="flex-1 p-4 space-y-2">
+                <a href="#" class="flex items-center gap-3 px-4 py-2.5 rounded-lg bg-emerald-600 text-white font-medium transition">
+                    <i class="fa-solid fa-id-card w-5"></i> Choferes
+                </a>
+                <a href="/vehiculos" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition">
+                    <i class="fa-solid fa-truck w-5"></i> Vehículos
+                </a>
+                <a href="#" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition">
+                    <i class="fa-solid fa-route w-5"></i> Rutas
+                </a>
+                <a href="#" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition">
+                    <i class="fa-solid fa-gear w-5"></i> Configuración
+                </a>
+            </nav>
+            <div class="p-4 border-t border-slate-800 text-sm text-slate-500">
+                v1.0.0 &copy; 2026
+            </div>
+        </div>
+
+        <div class="flex-1 flex flex-col overflow-y-auto">
+            
+            <header class="bg-white shadow-sm px-6 py-4 flex justify-between items-center">
+                <div class="flex items-center gap-4">
+                    <button class="text-gray-600 md:hidden block hover:text-gray-900">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                    <h1 class="text-2xl font-bold text-gray-800">Panel de Choferes</h1>
+                </div>
+                <div class="flex items-center gap-4">
+                    <span class="text-sm text-gray-600 hidden sm:block">Bienvenido, <strong>Administrador</strong></span>
+                    <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=80&h=80&q=80" alt="Avatar" class="w-9 h-9 rounded-full object-cover ring-2 ring-emerald-500">
+                </div>
+            </header>
+
+            <main class="p-6 space-y-6">
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-gray-400 uppercase">Total Choferes</p>
+                            <p id="card-total" class="text-3xl font-bold text-gray-800 mt-1">2</p>
+                        </div>
+                        <div class="w-12 h-12 rounded-lg bg-blue-50 flex items-center justify-center text-blue-500 text-xl">
+                            <i class="fa-solid fa-users"></i>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-gray-400 uppercase">En Ruta</p>
+                            <p class="text-3xl font-bold text-emerald-600 mt-1">1</p>
+                        </div>
+                        <div class="w-12 h-12 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-500 text-xl">
+                            <i class="fa-solid fa-circle-check"></i>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-gray-400 uppercase">Disponibles</p>
+                            <p class="text-3xl font-bold text-amber-500 mt-1">1</p>
+                        </div>
+                        <div class="w-12 h-12 rounded-lg bg-amber-50 flex items-center justify-center text-amber-500 text-xl">
+                            <i class="fa-solid fa-clock"></i>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-gray-400 uppercase">Inactivos</p>
+                            <p class="text-3xl font-bold text-rose-600 mt-1">0</p>
+                        </div>
+                        <div class="w-12 h-12 rounded-lg bg-rose-50 flex items-center justify-center text-rose-500 text-xl">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                    
+                    <div class="p-5 border-b border-gray-100 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-gray-50/50">
+                        <div class="relative max-w-xs w-full">
+                            </div>
+                        <button onclick="abrirCrearChofer()" class="inline-flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg transition shadow-sm">
+                            <i class="fa-solid fa-plus"></i> Registrar Chofer
+                        </button>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse" id="tabla-choferes">
+                            <thead>
+                                <tr class="border-b border-gray-200 bg-gray-50 text-xs font-semibold uppercase tracking-wider text-gray-500">
+                                    <th class="px-6 py-4">Chofer</th>
+                                    <th class="px-6 py-4">No. Licencia</th>
+                                    <th class="px-6 py-4">Teléfono</th>
+                                    <th class="px-6 py-4">Estado</th>
+                                    <th class="px-6 py-4 text-right">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100 text-sm text-gray-600">
+                                <tr class="hover:bg-gray-50/80 transition" id="chofer-1">
+                                    <td class="px-6 py-4 flex items-center gap-3">
+                                        <div class="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center font-bold text-slate-700 elemento-avatar">
+                                            CP
+                                        </div>
+                                        <div>
+                                            <p class="font-medium text-gray-900 dato-nombre">Carlos Pérez</p>
+                                            <p class="text-xs text-gray-400 dato-correo">carlos.perez@email.com</p>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 font-mono text-xs text-gray-700 dato-licencia">A-12345678</td>
+                                    <td class="px-6 py-4 dato-telefono">+52 55 1234 5678</td>
+                                    <td class="px-6 py-4 dato-estado">
+                                        <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800" data-val="en_ruta">
+                                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> En Ruta
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 text-right space-x-2 whitespace-nowrap">
+                                        <button onclick="abrirEditarChofer(this, 'chofer-1')" class="text-blue-600 hover:text-blue-900 p-1 transition" title="Editar"><i class="fa-solid fa-pen"></i></button>
+                                        <button onclick="eliminarChofer(this)" class="text-rose-600 hover:text-rose-900 p-1 transition" title="Eliminar"><i class="fa-solid fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50/80 transition" id="chofer-2">
+                                    <td class="px-6 py-4 flex items-center gap-3">
+                                        <div class="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center font-bold text-slate-700 elemento-avatar">
+                                            AM
+                                        </div>
+                                        <div>
+                                            <p class="font-medium text-gray-900 dato-nombre">Alejandro Mendoza</p>
+                                            <p class="text-xs text-gray-400 dato-correo">a.mendoza@email.com</p>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 font-mono text-xs text-gray-700 dato-licencia">B-98765432</td>
+                                    <td class="px-6 py-4 dato-telefono">+52 55 8765 4321</td>
+                                    <td class="px-6 py-4 dato-estado">
+                                        <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-800" data-val="disponible">
+                                            <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> Disponible
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 text-right space-x-2 whitespace-nowrap">
+                                        <button onclick="abrirEditarChofer(this, 'chofer-2')" class="text-blue-600 hover:text-blue-900 p-1 transition" title="Editar"><i class="fa-solid fa-pen"></i></button>
+                                        <button onclick="eliminarChofer(this)" class="text-rose-600 hover:text-rose-900 p-1 transition" title="Eliminar"><i class="fa-solid fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <div id="modal-chofer" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
+        <div class="bg-white rounded-xl shadow-xl border border-gray-100 max-w-lg w-full overflow-hidden transform scale-95 transition-transform duration-300 m-4">
+            
+            <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50">
+                <h3 class="text-lg font-bold text-gray-800" id="modal-title">Registrar Nuevo Chofer</h3>
+                <button type="button" onclick="cerrarModalLimpiando()" class="text-gray-400 hover:text-gray-600 transition">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <form id="form-chofer">
+                <input type="hidden" id="editando-id" value="">
+
+                <div class="p-6 space-y-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="sm:col-span-2">
+                            <label class="block text-xs font-semibold uppercase tracking-wider text-gray-500 mb-1">Nombre Completo</label>
+                            <input type="text" id="input-nombre" required class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold uppercase tracking-wider text-gray-500 mb-1">Correo Electrónico</label>
+                            <input type="email" id="input-correo" required class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold uppercase tracking-wider text-gray-500 mb-1">Teléfono</label>
+                            <input type="tel" id="input-telefono" required class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold uppercase tracking-wider text-gray-500 mb-1">No. de Licencia</label>
+                            <input type="text" id="input-licencia" required class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm font-mono focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold uppercase tracking-wider text-gray-500 mb-1">Estado Inicial</label>
+                            <select id="input-estado" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+                                <option value="disponible">Disponible</option>
+                                <option value="en_ruta">En Ruta</option>
+                                <option value="inactivo">Inactivo</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="px-6 py-4 border-t border-gray-100 bg-gray-50 flex justify-end gap-3">
+                    <button type="button" onclick="cerrarModalLimpiando()" class="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-sm font-medium transition shadow-sm">
+                        Guardar Chofer
+                    </button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+    <script>
+        // --- ANIMACIÓN DEL MODAL ---
+        function toggleModal(modalId) {
+            const modal = document.getElementById(modalId);
+            const modalContent = modal.querySelector('div');
+            
+            if (modal.classList.contains('hidden')) {
+                modal.classList.remove('hidden');
+                setTimeout(() => {
+                    modal.classList.remove('opacity-0');
+                    modalContent.classList.remove('scale-95');
+                }, 20);
+            } else {
+                modal.classList.add('opacity-0');
+                modalContent.classList.add('scale-95');
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                }, 300);
+            }
+        }
+
+        // --- MANEJO DEL MODAL ---
+        function abrirCrearChofer() {
+            document.getElementById('editando-id').value = "";
+            document.getElementById('modal-title').innerText = "Registrar Nuevo Chofer";
+            toggleModal('modal-chofer');
+        }
+
+        function cerrarModalLimpiando() {
+            document.getElementById('form-chofer').reset();
+            document.getElementById('editando-id').value = "";
+            toggleModal('modal-chofer');
+        }
+
+        function abrirEditarChofer(boton, idFila) {
+            const fila = document.getElementById(idFila);
+            
+            // Extraer datos actuales de las celdas
+            const nombre = fila.querySelector('.dato-nombre').innerText;
+            const correo = fila.querySelector('.dato-correo').innerText;
+            const licencia = fila.querySelector('.dato-licencia').innerText;
+            const telefono = fila.querySelector('.dato-telefono').innerText;
+            const estado = fila.querySelector('.dato-estado span').getAttribute('data-val');
+
+            // Cargar datos en el formulario del modal
+            document.getElementById('editando-id').value = idFila;
+            document.getElementById('input-nombre').value = nombre;
+            document.getElementById('input-correo').value = correo;
+            document.getElementById('input-licencia').value = licencia;
+            document.getElementById('input-telefono').value = telefono;
+            document.getElementById('input-estado').value = estado;
+
+            // Cambiar título del modal
+            document.getElementById('modal-title').innerText = "Modificar Datos de Chofer";
+            
+            toggleModal('modal-chofer');
+        }
+
+        // --- SUBMIT DEL FORMULARIO (GUARDAR) ---
+        document.getElementById('form-chofer').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const idEditando = document.getElementById('editando-id').value;
+            const nombre = document.getElementById('input-nombre').value;
+            const correo = document.getElementById('input-correo').value;
+            const licencia = document.getElementById('input-licencia').value;
+            const telefono = document.getElementById('input-telefono').value;
+            const estado = document.getElementById('input-estado').value;
+
+            // Renderizar el badge de estado según la opción seleccionada
+            let badgeHTML = '';
+            if (estado === 'en_ruta') {
+                badgeHTML = `<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800" data-val="en_ruta"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> En Ruta</span>`;
+            } else if (estado === 'disponible') {
+                badgeHTML = `<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-800" data-val="disponible"><span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> Disponible</span>`;
+            } else {
+                badgeHTML = `<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-rose-100 text-rose-800" data-val="inactivo"><span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span> Inactivo</span>`;
+            }
+
+            // Generar iniciales para el avatar
+            const iniciales = nombre.split(' ').map(palabra => palabra[0]).join('').substring(0,2).toUpperCase();
+
+            if (idEditando) {
+                // --- MODO: EDICIÓN ---
+                const fila = document.getElementById(idEditando);
+                fila.querySelector('.dato-nombre').innerText = nombre;
+                fila.querySelector('.dato-correo').innerText = correo;
+                fila.querySelector('.dato-licencia').innerText = licencia;
+                fila.querySelector('.dato-telefono').innerText = telefono;
+                fila.querySelector('.dato-estado').innerHTML = badgeHTML;
+                fila.querySelector('.elemento-avatar').innerText = iniciales;
+            } else {
+                // --- MODO: CREAR NUEVO ---
+                const nuevoId = 'chofer-' + Date.now(); // Genera un ID único temporal
+                const tbody = document.querySelector('#tabla-choferes tbody');
+                
+                const nuevaFila = document.createElement('tr');
+                nuevaFila.className = 'hover:bg-gray-50/80 transition';
+                nuevaFila.id = nuevoId;
+                nuevaFila.innerHTML = `
+                    <td class="px-6 py-4 flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center font-bold text-slate-700 elemento-avatar">${iniciales}</div>
+                        <div>
+                            <p class="font-medium text-gray-900 dato-nombre">${nombre}</p>
+                            <p class="text-xs text-gray-400 dato-correo">${correo}</p>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 font-mono text-xs text-gray-700 dato-licencia">${licencia}</td>
+                    <td class="px-6 py-4 dato-telefono">${telefono}</td>
+                    <td class="px-6 py-4 dato-estado">${badgeHTML}</td>
+                    <td class="px-6 py-4 text-right space-x-2 whitespace-nowrap">
+                        <button onclick="abrirEditarChofer(this, '${nuevoId}')" class="text-blue-600 hover:text-blue-900 p-1 transition" title="Editar"><i class="fa-solid fa-pen"></i></button>
+                        <button onclick="eliminarChofer(this)" class="text-rose-600 hover:text-rose-900 p-1 transition" title="Eliminar"><i class="fa-solid fa-trash"></i></button>
+                    </td>
+                `;
+                tbody.appendChild(nuevaFila);
+            }
+
+            actualizarContadores();
+            cerrarModalLimpiando();
+        });
+
+        // --- FUNCIÓN PARA ELIMINAR ---
+        function eliminarChofer(boton) {
+            const fila = boton.closest('tr');
+            const nombreChofer = fila.querySelector('.dato-nombre').innerText;
+
+            if (confirm(`¿Estás seguro de que deseas eliminar al chofer ${nombreChofer}?`)) {
+                fila.style.transition = 'all 0.3s ease';
+                fila.style.opacity = '0';
+                fila.style.transform = 'translateX(20px)';
+                
+                setTimeout(() => {
+                    fila.remove();
+                    actualizarContadores();
+                }, 300);
+            }
+        }
+
+        // --- ACTUALIZACIÓN DINÁMICA DE CARDS ---
+        function actualizarContadores() {
+            const filas = document.querySelectorAll('#tabla-choferes tbody tr');
+            let total = filas.length;
+            let enRuta = 0;
+            let disponible = 0;
+            let inactivo = 0;
+
+            filas.forEach(fila => {
+                const estado = fila.querySelector('.dato-estado span').getAttribute('data-val');
+                if (estado === 'en_ruta') enRuta++;
+                else if (estado === 'disponible') disponible++;
+                else if (estado === 'inactivo') inactivo++;
+            });
+
+            document.getElementById('card-total').innerText = total;
+            document.querySelector('.bg-white:nth-child(2) p.text-3xl').innerText = enRuta;
+            document.querySelector('.bg-white:nth-child(3) p.text-3xl').innerText = disponible;
+            document.querySelector('.bg-white:nth-child(4) p.text-3xl').innerText = inactivo;
+        }
+    </script>
+</body>
+</html>

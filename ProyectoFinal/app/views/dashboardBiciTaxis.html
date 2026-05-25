@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Control - Gestión de Vehículos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-slate-50 font-sans antialiased">
+
+    <div class="flex h-screen overflow-hidden">
+        
+        <div class="w-64 bg-slate-900 text-white flex flex-col hidden md:flex">
+            <div class="p-5 text-xl font-bold tracking-wider border-b border-slate-800 flex items-center gap-3">
+                <i class="fa-solid fa-truck-steering text-indigo-400"></i>
+                <span>BiciTaxis</span>
+            </div>
+            <nav class="flex-1 p-4 space-y-2">
+                <a href="/choferes" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition">
+                    <i class="fa-solid fa-id-card w-5"></i> Choferes
+                </a>
+                <a href="/vehiculos" class="flex items-center gap-3 px-4 py-2.5 rounded-lg bg-indigo-600 text-white font-medium transition shadow-md shadow-indigo-900/20">
+                    <i class="fa-solid fa-truck w-5"></i> Vehículos
+                </a>
+                <a href="#" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition">
+                    <i class="fa-solid fa-route w-5"></i> Rutas
+                </a>
+                <a href="#" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition">
+                    <i class="fa-solid fa-gear w-5"></i> Configuración
+                </a>
+            </nav>
+            <div class="p-4 border-t border-slate-800 text-sm text-slate-500">
+                v1.0.0 &copy; 2026
+            </div>
+        </div>
+
+        <div class="flex-1 flex flex-col overflow-y-auto">
+            
+            <header class="bg-white shadow-sm px-6 py-4 flex justify-between items-center">
+                <div class="flex items-center gap-4">
+                    <button class="text-gray-600 md:hidden block hover:text-gray-900">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                    <h1 class="text-2xl font-bold text-gray-800">Flota de Vehículos</h1>
+                </div>
+                <div class="flex items-center gap-4">
+                    <span class="text-sm text-gray-600 hidden sm:block">Bienvenido, <strong>Administrador</strong></span>
+                    <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=80&h=80&q=80" alt="Avatar" class="w-9 h-9 rounded-full object-cover ring-2 ring-indigo-500">
+                </div>
+            </header>
+
+            <main class="p-6 space-y-6">
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-gray-400 uppercase">Total Vehículos</p>
+                            <p id="card-total" class="text-3xl font-bold text-gray-800 mt-1">3</p>
+                        </div>
+                        <div class="w-12 h-12 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-500 text-xl">
+                            <i class="fa-solid fa-truck-flatbed"></i>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-gray-400 uppercase">En Ruta</p>
+                            <p id="card-ruta" class="text-3xl font-bold text-emerald-600 mt-1">1</p>
+                        </div>
+                        <div class="w-12 h-12 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-500 text-xl">
+                            <i class="fa-solid fa-road"></i>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-gray-400 uppercase">Mantenimiento</p>
+                            <p id="card-mantenimiento" class="text-3xl font-bold text-amber-500 mt-1">1</p>
+                        </div>
+                        <div class="w-12 h-12 rounded-lg bg-amber-50 flex items-center justify-center text-amber-500 text-xl">
+                            <i class="fa-solid fa-screwdriver-wrench"></i>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-gray-400 uppercase">Disponibles</p>
+                            <p id="card-disponible" class="text-3xl font-bold text-blue-600 mt-1">1</p>
+                        </div>
+                        <div class="w-12 h-12 rounded-lg bg-blue-50 flex items-center justify-center text-blue-500 text-xl">
+                            <i class="fa-solid fa-square-check"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                    
+                    <div class="p-5 border-b border-gray-100 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-gray-50/50">
+                        <div class="relative max-w-xs w-full">
+                        </div>
+                        <button onclick="abrirCrearVehiculo()" class="inline-flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg transition shadow-sm">
+                            <i class="fa-solid fa-plus"></i> Registrar Vehículo
+                        </button>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse" id="tabla-vehiculos">
+                            <thead>
+                                <tr class="border-b border-gray-200 bg-gray-50 text-xs font-semibold uppercase tracking-wider text-gray-500">
+                                    <th class="px-6 py-4">Vehículo</th>
+                                    <th class="px-6 py-4">Matrícula / Placa</th>
+                                    <th class="px-6 py-4">Tipo</th>
+                                    <th class="px-6 py-4">Kilometraje</th>
+                                    <th class="px-6 py-4">Estado</th>
+                                    <th class="px-6 py-4 text-right">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100 text-sm text-gray-600">
+                                <tr class="hover:bg-gray-50/80 transition" id="vehiculo-1">
+                                    <td class="px-6 py-4 flex items-center gap-3">
+                                        <div class="w-10 h-10 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-600 text-lg font-bold elemento-icono">
+                                            <i class="fa-solid fa-truck"></i>
+                                        </div>
+                                        <div>
+                                            <p class="font-medium text-gray-900 dato-modelo">BiciTaxi Premium Techado</p>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 font-mono text-xs font-semibold text-slate-700 dato-placa">XYZ-987-A</td>
+                                    <td class="px-6 py-4 text-gray-500 dato-tipo" data-val="techado">Techado</td>
+                                    <td class="px-6 py-4 text-gray-700 font-medium dato-km">145230</td>
+                                    <td class="px-6 py-4 dato-estado">
+                                        <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800" data-val="en_ruta">
+                                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> En Ruta
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 text-right space-x-2 whitespace-nowrap">
+                                        <button onclick="abrirEditarVehiculo(this, 'vehiculo-1')" class="text-indigo-600 hover:text-indigo-900 p-1 transition" title="Editar"><i class="fa-solid fa-pen"></i></button>
+                                        <button onclick="eliminarVehiculo(this)" class="text-rose-600 hover:text-rose-900 p-1 transition" title="Eliminar"><i class="fa-solid fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50/80 transition" id="vehiculo-2">
+                                    <td class="px-6 py-4 flex items-center gap-3">
+                                        <div class="w-10 h-10 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-600 text-lg font-bold elemento-icono">
+                                            <i class="fa-solid fa-bicycle"></i>
+                                        </div>
+                                        <div>
+                                            <p class="font-medium text-gray-900 dato-modelo">EcoBici Eco Eco</p>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 font-mono text-xs font-semibold text-slate-700 dato-placa">ABC-123-B</td>
+                                    <td class="px-6 py-4 text-gray-500 dato-tipo" data-val="Simple">Simple</td>
+                                    <td class="px-6 py-4 text-gray-700 font-medium dato-km">89450</td>
+                                    <td class="px-6 py-4 dato-estado">
+                                        <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800" data-val="disponible">
+                                            <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span> Disponible
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 text-right space-x-2 whitespace-nowrap">
+                                        <button onclick="abrirEditarVehiculo(this, 'vehiculo-2')" class="text-indigo-600 hover:text-indigo-900 p-1 transition" title="Editar"><i class="fa-solid fa-pen"></i></button>
+                                        <button onclick="eliminarVehiculo(this)" class="text-rose-600 hover:text-rose-900 p-1 transition" title="Eliminar"><i class="fa-solid fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50/80 transition" id="vehiculo-3">
+                                    <td class="px-6 py-4 flex items-center gap-3">
+                                        <div class="w-10 h-10 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-600 text-lg font-bold elemento-icono">
+                                            <i class="fa-solid fa-truck"></i>
+                                        </div>
+                                        <div>
+                                            <p class="font-medium text-gray-900">BiciTaxi Cargo Box</p>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 font-mono text-xs font-semibold text-slate-700 dato-placa">MNO-456-C</td>
+                                    <td class="px-6 py-4 text-gray-500 dato-tipo" data-val="techado">Techado</td>
+                                    <td class="px-6 py-4 text-gray-700 font-medium dato-km">210115</td>
+                                    <td class="px-6 py-4 dato-estado">
+                                        <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-800" data-val="mantenimiento">
+                                            <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> En taller
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 text-right space-x-2 whitespace-nowrap">
+                                        <button onclick="abrirEditarVehiculo(this, 'vehiculo-3')" class="text-indigo-600 hover:text-indigo-900 p-1 transition" title="Editar"><i class="fa-solid fa-pen"></i></button>
+                                        <button onclick="eliminarVehiculo(this)" class="text-rose-600 hover:text-rose-900 p-1 transition" title="Eliminar"><i class="fa-solid fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <div id="modal-vehiculo" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
+        <div class="bg-white rounded-xl shadow-xl border border-gray-100 max-w-lg w-full overflow-hidden transform scale-95 transition-transform duration-300 m-4">
+            
+            <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50">
+                <h3 class="text-lg font-bold text-gray-800" id="modal-title">Registrar Nuevo Vehículo</h3>
+                <button type="button" onclick="cerrarModalLimpiando()" class="text-gray-400 hover:text-gray-600 transition">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <form id="form-vehiculo">
+                <input type="hidden" id="editando-id" value="">
+
+                <div class="p-6 space-y-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="sm:col-span-2">
+                            <label class="block text-xs font-semibold uppercase tracking-wider text-gray-500 mb-1">Marca y Modelo</label>
+                            <input type="text" id="input-modelo" placeholder="Ej: Toyota Hilux" required class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold uppercase tracking-wider text-gray-500 mb-1">Matrícula / Placa</label>
+                            <input type="text" id="input-placa" placeholder="Ej: ABC-123-X" required class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm font-mono focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold uppercase tracking-wider text-gray-500 mb-1">Tipo de Vehículo</label>
+                            <select id="input-tipo" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                                <option value="techado">Techado</option>
+                                <option value="Simple">Simple</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold uppercase tracking-wider text-gray-500 mb-1">Kilometraje Inicial / Actual</label>
+                            <input type="number" id="input-km" placeholder="Ej: 45000" required class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold uppercase tracking-wider text-gray-500 mb-1">Estado Operativo</label>
+                            <select id="input-estado" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                                <option value="disponible">Disponible</option>
+                                <option value="en_ruta">En Ruta</option>
+                                <option value="mantenimiento">Mantenimiento</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="px-6 py-4 border-t border-gray-100 bg-gray-50 flex justify-end gap-3">
+                    <button type="button" onclick="cerrarModalLimpiando()" class="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-sm font-medium transition shadow-sm">
+                        Guardar Vehículo
+                    </button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+    <script>
+        // --- ANIMACIÓN INTERNA DEL MODAL ---
+        function toggleModal(modalId) {
+            const modal = document.getElementById(modalId);
+            const modalContent = modal.querySelector('div');
+            
+            if (modal.classList.contains('hidden')) {
+                modal.classList.remove('hidden');
+                setTimeout(() => {
+                    modal.classList.remove('opacity-0');
+                    modalContent.classList.remove('scale-95');
+                }, 20);
+            } else {
+                modal.classList.add('opacity-0');
+                modalContent.classList.add('scale-95');
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                }, 300);
+            }
+        }
+
+        // --- MANEJO DE VISTAS DE APERTURA ---
+        function abrirCrearVehiculo() {
+            document.getElementById('editando-id').value = "";
+            document.getElementById('modal-title').innerText = "Registrar Nuevo Vehículo";
+            toggleModal('modal-vehiculo');
+        }
+
+        function cerrarModalLimpiando() {
+            document.getElementById('form-vehiculo').reset();
+            document.getElementById('editando-id').value = "";
+            toggleModal('modal-vehiculo');
+        }
+
+        function abrirEditarVehiculo(boton, idFila) {
+            const fila = document.getElementById(idFila);
+            
+            // Recuperación de valores desde las filas de la tabla
+            const modelo = fila.querySelector('.dato-modelo').innerText;
+            const placa = fila.querySelector('.dato-placa').innerText;
+            const tipo = fila.querySelector('.dato-tipo').getAttribute('data-val');
+            const km = fila.querySelector('.dato-km').innerText.replace(/[^0-9]/g, ''); // Deja solo los números
+            const estado = fila.querySelector('.dato-estado span').getAttribute('data-val');
+
+            // Setear la información en los campos correspondientes del modal
+            document.getElementById('editando-id').value = idFila;
+            document.getElementById('input-modelo').value = modelo;
+            document.getElementById('input-placa').value = placa;
+            document.getElementById('input-tipo').value = tipo;
+            document.getElementById('input-km').value = km;
+            document.getElementById('input-estado').value = estado;
+
+            // Ajustar el encabezado dinámicamente
+            document.getElementById('modal-title').innerText = "Modificar Datos del Vehículo";
+            
+            toggleModal('modal-vehiculo');
+        }
+
+        // --- SUBMIT DEL FORMULARIO (GUARDAR / AGREGAR) ---
+        document.getElementById('form-vehiculo').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const idEditando = document.getElementById('editando-id').value;
+            const modelo = document.getElementById('input-modelo').value;
+            const placa = document.getElementById('input-placa').value;
+            const tipo = document.getElementById('input-tipo').value;
+            const km = document.getElementById('input-km').value;
+            const estado = document.getElementById('input-estado').value;
+
+            // Configurar los Badges de Estado Operativo usando Tailwind
+            let badgeHTML = '';
+            if (estado === 'en_ruta') {
+                badgeHTML = `<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800" data-val="en_ruta"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> En Ruta</span>`;
+            } else if (estado === 'disponible') {
+                badgeHTML = `<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800" data-val="disponible"><span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span> Disponible</span>`;
+            } else if (estado === 'mantenimiento') {
+                badgeHTML = `<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-800" data-val="mantenimiento"><span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> En Taller</span>`;
+            }
+
+            // Seleccionar icono correcto dependiendo de la clasificación del vehículo
+            const iconoHTML = tipo === 'techado' ? '<i class="fa-solid fa-truck"></i>' : '<i class="fa-solid fa-bicycle"></i>';
+            const tipoTextoLabel = tipo === 'techado' ? 'Techado' : 'Simple';
+            
+            // Formatear el kilometraje con comas y sufijo km
+            const kmFormateado = Number(km).toLocaleString('en-US') + " km";
+
+            if (idEditando) {
+                // --- PROCESO: EDICIÓN ---
+                const fila = document.getElementById(idEditando);
+                fila.querySelector('.dato-modelo').innerText = modelo;
+                fila.querySelector('.dato-placa').innerText = placa;
+                fila.querySelector('.dato-tipo').innerText = tipoTextoLabel;
+                fila.querySelector('.dato-tipo').setAttribute('data-val', tipo);
+                fila.querySelector('.dato-km').innerText = kmFormateado;
+                fila.querySelector('.dato-estado').innerHTML = badgeHTML;
+                fila.querySelector('.elemento-icono').innerHTML = iconoHTML;
+            } else {
+                // --- PROCESO: REGISTRAR NUEVO ---
+                const nuevoId = 'vehiculo-' + Date.now(); // ID dinámico en JS basado en timestamp
+                const tbody = document.querySelector('#tabla-vehiculos tbody');
+                
+                const nuevaFila = document.createElement('tr');
+                nuevaFila.className = 'hover:bg-gray-50/80 transition';
+                nuevaFila.id = nuevoId;
+                nuevaFila.innerHTML = `
+                    <td class="px-6 py-4 flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-600 text-lg font-bold elemento-icono">${iconoHTML}</div>
+                        <div><p class="font-medium text-gray-900 dato-modelo">${modelo}</p></div>
+                    </td>
+                    <td class="px-6 py-4 font-mono text-xs font-semibold text-slate-700 dato-placa">${placa}</td>
+                    <td class="px-6 py-4 text-gray-500 dato-tipo" data-val="${tipo}">${tipoTextoLabel}</td>
+                    <td class="px-6 py-4 text-gray-700 font-medium dato-km">${kmFormateado}</td>
+                    <td class="px-6 py-4 dato-estado">${badgeHTML}</td>
+                    <td class="px-6 py-4 text-right space-x-2 whitespace-nowrap">
+                        <button onclick="abrirEditarVehiculo(this, '${nuevoId}')" class="text-indigo-600 hover:text-indigo-900 p-1 transition" title="Editar"><i class="fa-solid fa-pen"></i></button>
+                        <button onclick="eliminarVehiculo(this)" class="text-rose-600 hover:text-rose-900 p-1 transition" title="Eliminar"><i class="fa-solid fa-trash"></i></button>
+                    </td>
+                `;
+                tbody.appendChild(nuevaFila);
+            }
+
+            actualizarContadoresVehiculos();
+            cerrarModalLimpiando();
+        });
+
+        // --- ELIMINAR REGISTRO ---
+        function eliminarVehiculo(boton) {
+            const fila = boton.closest('tr');
+            const placa = fila.querySelector('.dato-placa').innerText;
+            const modelo = fila.querySelector('.dato-modelo').innerText;
+
+            if (confirm(`¿Estás seguro de eliminar el vehículo ${modelo} con placas [${placa}]?`)) {
+                fila.style.transition = 'all 0.3s ease';
+                fila.style.opacity = '0';
+                fila.style.transform = 'translateY(15px)';
+                
+                setTimeout(() => {
+                    fila.remove();
+                    actualizarContadoresVehiculos();
+                }, 300);
+            }
+        }
+
+        // --- CONTADORES DINÁMICOS DEL DASHBOARD ---
+        function actualizarContadoresVehiculos() {
+            const filas = document.querySelectorAll('#tabla-vehiculos tbody tr');
+            let total = filas.length;
+            let enRuta = 0;
+            let disponible = 0;
+            let mantenimiento = 0;
+
+            filas.forEach(fila => {
+                const estado = fila.querySelector('.dato-estado span').getAttribute('data-val');
+                if (estado === 'en_ruta') enRuta++;
+                else if (estado === 'disponible') disponible++;
+                else if (estado === 'mantenimiento') mantenimiento++;
+            });
+
+            // Reemplazar textos de indicadores superiores
+            document.getElementById('card-total').innerText = total;
+            document.getElementById('card-ruta').innerText = enRuta;
+            document.getElementById('card-mantenimiento').innerText = mantenimiento;
+            document.getElementById('card-disponible').innerText = disponible;
+        }
+
+        // Ejecución inicial automática para sincronizar los valores fijos del HTML con las tarjetas
+        document.addEventListener("DOMContentLoaded", actualizarContadoresVehiculos);
+    </script>
+</body>
+</html>
